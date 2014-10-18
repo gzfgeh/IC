@@ -1,0 +1,210 @@
+###############################################################################
+#                                                                             #
+# IAR ELF Linker V6.60.1.5097/W32 for ARM               17/Oct/2014  15:20:00 #
+# Copyright 2007-2013 IAR Systems AB.                                         #
+#                                                                             #
+#    Output file  =  E:\James\Work\Program\SH79F166A                          #
+#                    runfunction\Debug\Exe\_demo.out                          #
+#    Map file     =  E:\James\Work\Program\SH79F166A                          #
+#                    runfunction\Debug\List\_demo.map                         #
+#    Command line =  "E:\James\Work\Program\SH79F166A                         #
+#                    runfunction\Debug\Obj\c_start.o"                         #
+#                    "E:\James\Work\Program\SH79F166A                         #
+#                    runfunction\Debug\Obj\dbg.o"                             #
+#                    "E:\James\Work\Program\SH79F166A                         #
+#                    runfunction\Debug\Obj\exceptions.o"                      #
+#                    "E:\James\Work\Program\SH79F166A                         #
+#                    runfunction\Debug\Obj\main.o"                            #
+#                    "E:\James\Work\Program\SH79F166A                         #
+#                    runfunction\Debug\Obj\template.o"                        #
+#                    "E:\James\Work\Program\SH79F166A                         #
+#                    runfunction\Debug\Obj\vector_ram.o" --redirect           #
+#                    _Printf=_PrintfFull --redirect _Scanf=_ScanfFull -o      #
+#                    "E:\James\Work\Program\SH79F166A                         #
+#                    runfunction\Debug\Exe\_demo.out" --map                   #
+#                    "E:\James\Work\Program\SH79F166A                         #
+#                    runfunction\Debug\List\_demo.map" --config               #
+#                    "E:\James\Work\Program\SH79F166A                         #
+#                    runfunction\Vector.icf" --semihosting --entry            #
+#                    __iar_program_start --vfe                                #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+*******************************************************************************
+*** RUNTIME MODEL ATTRIBUTES
+***
+
+CppFlavor       = *
+__SystemLibrary = DLib
+
+
+*******************************************************************************
+*** PLACEMENT SUMMARY
+***
+
+"A2":  place at 0x20100000 { ro section .intvec };
+"P1":  place in [from 0x20100000 to 0x20100bff] { ro };
+"P2":  place in [from 0x20100c00 to 0x2010107f] { rw, block CSTACK, block HEAP };
+
+  Section  Kind        Address   Size  Object
+  -------  ----        -------   ----  ------
+"A2":                            0x40
+  .intvec  const    0x20100000   0x40  c_start.o [1]
+                  - 0x20100040   0x40
+
+"P1":                           0x9a4
+  .text    ro code  0x20100040  0x56c  template.o [1]
+  .text    ro code  0x201005ac   0x62  dbg.o [1]
+  .text    ro code  0x2010060e    0xc  memcpy.o [3]
+  .text    ro code  0x2010061a   0x12  exceptions.o [1]
+  .text    ro code  0x2010062c   0x62  memcmp_unaligned.o [4]
+  .text    ro code  0x20100690   0x76  ABImemcpy_unaligned.o [4]
+  .text    ro code  0x20100708  0x1c4  vector_ram.o [1]
+  .text    ro code  0x201008cc    0x6  ABImemclr4.o [4]
+  .text    ro code  0x201008d4   0x32  ABImemset48.o [4]
+  .rodata  const    0x20100908   0x80  template.o [1]
+  .text    ro code  0x20100988   0x24  main.o [1]
+  .text    ro code  0x201009ac   0x1a  cmain.o [4]
+  .text    ro code  0x201009c6    0x4  low_level_init.o [3]
+  .rodata  const    0x201009cc    0xc  template.o [1]
+  .text    ro code  0x201009d8    0xc  cstartup_M.o [4]
+                  - 0x201009e4  0x9a4
+
+"P2":                            0x18
+  .noinit  uninit   0x20100c00   0x10  vector_ram.o [1]
+  .noinit  uninit   0x20100c10    0x2  main.o [1]
+  CSTACK            0x20100c18    0x0  <Block>
+                  - 0x20100c18   0x18
+
+
+
+*******************************************************************************
+*** MODULE SUMMARY
+***
+
+    Module                 ro code  ro data  rw data
+    ------                 -------  -------  -------
+E:\James\Work\Program\SH79F166A runfunction\Debug\Obj: [1]
+    c_start.o                            64
+    dbg.o                       98
+    exceptions.o                18
+    main.o                      36                 2
+    template.o               1 388      140
+    vector_ram.o               452                16
+    ------------------------------------------------
+    Total:                   1 992      204       18
+
+command line: [2]
+    ------------------------------------------------
+    Total:
+
+dl7M_tln.a: [3]
+    low_level_init.o             4
+    memcpy.o                    12
+    ------------------------------------------------
+    Total:                      16
+
+rt7M_tl.a: [4]
+    ABImemclr4.o                 6
+    ABImemcpy_unaligned.o      118
+    ABImemset48.o               50
+    cmain.o                     26
+    cstartup_M.o                12
+    memcmp_unaligned.o          98
+    ------------------------------------------------
+    Total:                     310
+
+    Gaps                         6        4
+----------------------------------------------------
+    Grand Total:             2 324      208       18
+
+
+*******************************************************************************
+*** ENTRY LIST
+***
+
+Entry                      Address   Size  Type      Object
+-----                      -------   ----  ----      ------
+?main                   0x201009ad         Code  Gb  cmain.o [4]
+BusFault_Handler        0x20100621    0x2  Code  Wk  exceptions.o [1]
+CSTACK$$Base            0x20100c18          --   Gb  - Linker created -
+CSTACK$$Limit           0x20100c18          --   Gb  - Linker created -
+DebugMon_Handler        0x20100627    0x2  Code  Wk  exceptions.o [1]
+HardFault_Handler       0x2010061d    0x2  Code  Wk  exceptions.o [1]
+MemManage_Handler       0x2010061f    0x2  Code  Wk  exceptions.o [1]
+NMI_Handler             0x2010061b    0x2  Code  Wk  exceptions.o [1]
+PendSV_Handler          0x20100629    0x2  Code  Wk  exceptions.o [1]
+Region$$Table$$Base     0x00000000          --   Gb  - Linker created -
+Region$$Table$$Limit    0x00000000          --   Gb  - Linker created -
+SVC_Handler             0x20100625    0x2  Code  Wk  exceptions.o [1]
+SysTick_Handler         0x2010062b    0x2  Code  Wk  exceptions.o [1]
+TraceChar               0x201005c3   0x10  Code  Gb  dbg.o [1]
+TraceHex32              0x201005dd   0x32  Code  Gb  dbg.o [1]
+TraceString             0x201005ad   0x16  Code  Gb  dbg.o [1]
+UsageFault_Handler      0x20100623    0x2  Code  Wk  exceptions.o [1]
+__aeabi_memclr4         0x201008cd         Code  Gb  ABImemclr4.o [4]
+__cmain                 0x201009ad         Code  Gb  cmain.o [4]
+__iar_Memset4_word      0x201008d5         Code  Gb  ABImemset48.o [4]
+__iar_Memset8_word      0x201008d5         Code  Gb  ABImemset48.o [4]
+__iar_program_start     0x201009d9         Code  Gb  cstartup_M.o [4]
+__iar_unaligned___aeabi_memcpy
+                        0x20100691         Code  Gb  ABImemcpy_unaligned.o [4]
+__iar_unaligned___aeabi_memcpy4
+                        0x201006b1         Code  Gb  ABImemcpy_unaligned.o [4]
+__iar_unaligned___aeabi_memcpy8
+                        0x201006b1         Code  Gb  ABImemcpy_unaligned.o [4]
+__iar_unaligned_memcmp  0x2010062d         Code  Gb  memcmp_unaligned.o [4]
+__low_level_init        0x201009c7    0x4  Code  Gb  low_level_init.o [3]
+__vector_table          0x20100000   0x40  Data  Gb  c_start.o [1]
+_call_main              0x201009b9         Code  Gb  cmain.o [4]
+_main                   0x201009c3         Code  Gb  cmain.o [4]
+check_ready             0x201007c5   0x72  Code  Wk  vector_ram.o [1]
+chkrdy_readid           0x2010053f   0x42  Code  Lc  template.o [1]
+chkrdy_verify           0x20100581   0x16  Code  Lc  template.o [1]
+command_blankcheck      0x2010029d   0x6c  Code  Lc  template.o [1]
+command_bus_reset       0x20100171    0x8  Code  Lc  template.o [1]
+command_erase           0x201001e1   0x4a  Code  Lc  template.o [1]
+command_initchip        0x201001c1    0x6  Code  Lc  template.o [1]
+command_lock            0x20100179   0x24  Code  Lc  template.o [1]
+command_nre             0x201004f1   0x4e  Code  Lc  template.o [1]
+command_program         0x2010041d   0xd4  Code  Lc  template.o [1]
+command_read            0x2010022b   0x72  Code  Lc  template.o [1]
+command_readid          0x201001c7   0x1a  Code  Lc  template.o [1]
+command_unlock          0x2010019d   0x24  Code  Lc  template.o [1]
+command_vec_reset       0x20100139   0x38  Code  Lc  template.o [1]
+command_verify          0x20100309  0x114  Code  Lc  template.o [1]
+exit                    0x201009a9    0x4  Code  Gb  main.o [1]
+get_last_success        0x2010012f    0xa  Code  Gb  template.o [1]
+ic_ramfunction          0x20100837   0x84  Code  Wk  vector_ram.o [1]
+m_slot                  0x20100c10    0x2  Data  Gb  main.o [1]
+main                    0x20100989   0x18  Code  Gb  main.o [1]
+memcpy                  0x2010060f    0xc  Code  Gb  memcpy.o [3]
+read_fifo               0x20100097   0x32  Code  Lc  template.o [1]
+read_fifo               0x20100757   0x2e  Code  Lc  vector_ram.o [1]
+read_sram               0x201000e9   0x20  Code  Lc  template.o [1]
+read_sram               0x201007a5   0x20  Code  Lc  vector_ram.o [1]
+s_uiOperate             0x20100c00   0x10  Data  Gb  vector_ram.o [1]
+vector_func             0x20100908   0x80  Data  Gb  template.o [1]
+vector_reset            0x20100109   0x18  Code  Lc  template.o [1]
+vector_run              0x20100121    0xe  Code  Lc  template.o [1]
+write_fifo              0x20100065   0x32  Code  Lc  template.o [1]
+write_fifo              0x20100729   0x2e  Code  Lc  vector_ram.o [1]
+write_register          0x20100041   0x24  Code  Lc  template.o [1]
+write_register          0x20100709   0x20  Code  Lc  vector_ram.o [1]
+write_sram              0x201000c9   0x20  Code  Lc  template.o [1]
+write_sram              0x20100785   0x20  Code  Lc  vector_ram.o [1]
+
+
+[1] = E:\James\Work\Program\SH79F166A runfunction\Debug\Obj
+[2] = command line
+[3] = dl7M_tln.a
+[4] = rt7M_tl.a
+[5] = shb_l.a
+
+  2 324 bytes of readonly  code memory
+    208 bytes of readonly  data memory
+     18 bytes of readwrite data memory
+
+Errors: none
+Warnings: none

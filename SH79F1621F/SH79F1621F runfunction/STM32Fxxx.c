@@ -1,0 +1,264 @@
+#include "vector_ram.h"
+#include "string.h"
+#include "dbg.h"
+
+#define IAP_START_ADDRESS		0x20000000
+#define IAP_BUF_SIZE			(sizeof(cstrIap))	//((sizeof(cstrIap)+3) & (~3UL))
+
+const unsigned char cstrIap[544] = {
+	0xC7,0xE0,0xC6,0xE0,0x00,0xBF,0x00,0xBF,0x00,0xBF,0x00,0xBF,0x00,0xBF,0x00,0xBF,		// ................
+	0x00,0xBF,0x00,0xBF,0xE8,0x68,0x21,0x21,0x01,0x40,0x20,0x29,0xF2,0xD1,0x14,0x21,		// .....h!!.@ )...!
+	0x01,0x40,0x70,0x47,0x6E,0x48,0x68,0x60,0x6E,0x48,0x68,0x60,0x70,0x47,0x6C,0x48,		// .@pGnHh`nHh`pGlH
+	0xA8,0x60,0x6C,0x48,0xA8,0x60,0x70,0x47,0x6B,0x48,0x28,0x61,0x6B,0x48,0x28,0x61,		// .`lH.`pGkH(akH(a
+	0x70,0x47,0x6B,0x48,0x28,0x61,0x6B,0x48,0x28,0x61,0x70,0x47,0x00,0xB5,0x34,0x20,		// pGkH(akH(apG..4 
+	0xE8,0x60,0xE8,0x69,0x02,0x21,0x08,0x40,0x02,0x28,0x05,0xD0,0x28,0x6A,0x66,0x49,		// .`.i.!.@.(..(jfI
+	0x88,0x42,0x01,0xD1,0x00,0xF0,0x8D,0xF8,0x64,0x4C,0x74,0x60,0x18,0x22,0xF2,0x60,		// .B......dLt`.".`
+	0x63,0x48,0x20,0x60,0x63,0x48,0x60,0x60,0x63,0x48,0xA0,0x60,0x63,0x48,0xE0,0x60,		// cH `cH``cH.`cH.`
+	0x63,0x48,0x20,0x61,0x61,0x48,0x60,0x61,0x00,0xF0,0x3D,0xF8,0x00,0xF0,0x7D,0xF8,		// cH aaH`a..=...}.
+	0x00,0xB5,0x34,0x20,0xE8,0x60,0x04,0x20,0x28,0x61,0x44,0x20,0x28,0x61,0xFF,0xF7,		// ..4 .`. (aD (a..
+	0xB1,0xFF,0x14,0x29,0x01,0xD0,0x00,0xF0,0x70,0xF8,0x00,0xF0,0x6A,0xF8,0x00,0xB5,		// ...)....p...j...
+	0xB3,0x68,0xF2,0x68,0x92,0x10,0x52,0x1C,0x52,0x1E,0x00,0x2A,0x01,0xD1,0x00,0xF0,		// .h.h..R.R..*....
+	0x64,0xF8,0x18,0x68,0x4C,0x49,0x88,0x42,0x01,0xD1,0x1B,0x1D,0xF4,0xE7,0x00,0xF0,		// d..hLI.B........
+	0x58,0xF8,0x00,0xB5,0x34,0x20,0xE8,0x60,0x74,0x68,0xB3,0x68,0xF2,0x68,0x52,0x10,		// X...4 .`th.h.hR.
+	0x52,0x1C,0x52,0x1E,0x00,0x2A,0x01,0xD1,0x00,0xF0,0x4F,0xF8,0x01,0x20,0x28,0x61,		// R.R..*....O.. (a
+	0x20,0x88,0x18,0x80,0xA4,0x1C,0x9B,0x1C,0xFF,0xF7,0x84,0xFF,0x14,0x29,0x00,0xD0,		//  ............)..
+	0xEF,0xE7,0x00,0xF0,0x3E,0xF8,0x00,0xB5,0xFF,0xF7,0x91,0xFF,0x34,0x20,0xE8,0x60,		// ....>.......4 .`
+	0x74,0x68,0xF2,0x68,0xD2,0x10,0x52,0x1C,0x28,0x69,0x35,0x49,0x08,0x40,0x88,0x42,		// th.h..R.(i5I.@.B
+	0x1A,0xD1,0xFF,0xF7,0x89,0xFF,0xFF,0xF7,0x6D,0xFF,0x52,0x1E,0x00,0x2A,0x01,0xD1,		// ........m.R..*..
+	0x00,0xF0,0x2B,0xF8,0xFF,0xF7,0x85,0xFF,0x60,0x68,0x21,0x68,0x08,0x80,0xFF,0xF7,		// ..+.....`h!h....
+	0x61,0xFF,0xFF,0xF7,0x7E,0xFF,0x60,0x68,0x00,0x14,0x21,0x68,0x89,0x1C,0x08,0x80,		// a...~.`h..!h....
+	0xFF,0xF7,0x58,0xFF,0x08,0x34,0xE8,0xE7,0x00,0xF0,0x13,0xF8,0x00,0xB5,0x74,0x68,		// ..X..4........th
+	0xF2,0x68,0xD2,0x10,0x52,0x1C,0x52,0x1E,0x00,0x2A,0x01,0xD1,0x00,0xF0,0x0D,0xF8,		// .h..R.R..*......
+	0x20,0x68,0x00,0x68,0x61,0x68,0x88,0x42,0x01,0xD1,0x08,0x34,0xF3,0xE7,0x00,0xF0,		//  h.hah.B...4....
+	0x00,0xF8,0x01,0x20,0x30,0x60,0x02,0xBC,0x08,0x47,0x00,0x20,0x30,0x60,0x02,0xBC,		// ... 0`...G. 0`..
+	0x08,0x47,0x20,0x4D,0x20,0x4E,0xFF,0xF7,0x45,0xFF,0xFF,0xF7,0x48,0xFF,0x00,0x20,		// .G M N..E...H.. 
+	0x30,0x60,0x00,0x20,0x30,0x61,0x30,0x69,0x06,0x28,0xEA,0xDC,0x06,0x21,0x48,0x43,		// 0`. 0a0i.(...!HC
+	0x1A,0x49,0x40,0x18,0x00,0x47,0xF6,0xE7,0xF3,0xE7,0xF2,0xE7,0xFF,0xF7,0x68,0xFF,		// .I@..G........h.
+	0xEF,0xE7,0xFF,0xF7,0x74,0xFF,0xEC,0xE7,0xFF,0xF7,0x83,0xFF,0xE9,0xE7,0xFF,0xF7,		// ....t...........
+	0x9A,0xFF,0xE6,0xE7,0xFF,0xF7,0xC2,0xFF,0xE3,0xE7,0xFF,0xF7,0x37,0xFF,0xE0,0xE7,		// ............7...
+	0x23,0x01,0x67,0x45,0xAB,0x89,0xEF,0xCD,0x20,0x02,0x00,0x00,0x60,0x02,0x00,0x00,		// #.gE.... ...`...
+	0x00,0x02,0x00,0x00,0x10,0x02,0x00,0x00,0xFF,0xFF,0xFF,0xFF,0x00,0x03,0x00,0x20,		// ............... 
+	0x00,0xF8,0xFF,0x1F,0xAA,0x55,0xFF,0x00,0x04,0xF8,0xFF,0x1F,0xFF,0x00,0xFF,0x00,		// .....U..........
+	0x08,0xF8,0xFF,0x1F,0x00,0x20,0x02,0x40,0xEC,0x02,0x00,0x20,0xB7,0x01,0x00,0x20,		// ..... .@... ... 
+	
+};
+
+#define WRITE_SRAM(addr,val)	do{\
+									temp = val;\
+									write_sram(addr,&temp,1);\
+								}while(0)
+
+#define READ_SRAM(addr,val)		do{\
+									read_sram(addr,&temp,1);\
+									val = temp;\
+								}while(0)
+
+
+typedef struct _st_icinfo{
+	unsigned char aucId[8];
+	unsigned int uiIdLength;
+	unsigned int uiPageSizeInByte;
+	unsigned int uiSectorSizeInByte;
+	unsigned int uiBlockSizeInByte;
+	unsigned int uiChipSizeInPage;
+	
+	unsigned int uiReadIdParameter;
+	unsigned int uiEraseParameter;
+	unsigned int uiProgramParameter;
+	unsigned int uiReadParameter;
+	unsigned int uiUnlockParameter;
+	unsigned int uiLockParameter;
+	unsigned int uiBusWidth;
+}IC_INFO,*PIC_INFO;
+
+unsigned int get_last_success(const void* cvpIcInformation,unsigned int sram[VSRAM_SIZE]){
+	const IC_INFO* info = (const IC_INFO*)cvpIcInformation;
+	return sram[VOFS_LAST_SUCCESS]/info->uiPageSizeInByte;
+}
+
+static void PROCESS_DECLARE(command_vec_reset)
+{
+	//will be call before power off.
+	//you should reset all IO to high impedence.
+	//Add your resect code here.
+	vector_reset();
+}
+
+static void PROCESS_DECLARE(command_bus_reset)
+{
+	//will be call after power on.
+	//Add your resect code here.
+	vector_run();
+}
+
+static void PROCESS_DECLARE(command_lock)
+{
+	const IC_INFO* info = (const IC_INFO*)vector->cvpIcInformation;
+	sram[VOFS_COMMAND] = VCMD_LOCK;
+	sram[VOFS_OP_CODE_METHOD] = info->uiLockParameter;
+	sram[VOFS_START_ADDRESS] = 0x8000000;
+	sram[VOFS_LENGTH] = info->uiChipSizeInPage*info->uiPageSizeInByte;
+	sram[VOFS_ID] = *(unsigned int*)info->aucId;
+}
+
+static void PROCESS_DECLARE(command_unlock)
+{
+	const IC_INFO* info = (const IC_INFO*)vector->cvpIcInformation;
+	sram[VOFS_COMMAND] = VCMD_UNLOCK;
+	sram[VOFS_OP_CODE_METHOD] = info->uiUnlockParameter;
+	sram[VOFS_START_ADDRESS] = 0x8000000;
+	sram[VOFS_LENGTH] = info->uiChipSizeInPage*info->uiPageSizeInByte;
+	sram[VOFS_ID] = *(unsigned int*)info->aucId;
+}
+
+static void PROCESS_DECLARE(command_initchip)
+{
+	write_register(0x3030,1);//fifo
+	write_fifo(0x3034,(unsigned short const*)cstrIap,IAP_BUF_SIZE/sizeof(unsigned short));
+	sram[VOFS_COMMAND] = VCMD_INIT_CHIP;
+	sram[VOFS_START_ADDRESS] = IAP_START_ADDRESS;
+	sram[VOFS_LENGTH] = IAP_BUF_SIZE;
+//	write_sram(0,sram,9);
+//	vector->ucFlag |= VEC_F_TRIGGED;
+}
+
+static void PROCESS_DECLARE(command_readid)
+{
+	const IC_INFO* info = (const IC_INFO*)vector->cvpIcInformation;
+	sram[VOFS_COMMAND] = VCMD_READ_ID;
+	sram[VOFS_OP_CODE_METHOD] = info->uiReadIdParameter;
+}
+
+static void traceOp(unsigned int sram[16]){
+	TraceString("OP");
+	TraceHex(sram[VOFS_COMMAND]);
+	TraceString(":Addr");
+	TraceHex32(sram[VOFS_START_ADDRESS]);
+	TraceString(" Len:");
+	TraceHex32(sram[VOFS_LENGTH]);
+	TraceString("\r\n");
+}
+
+static void PROCESS_DECLARE(command_erase)
+{
+#if 0
+	const IC_INFO* info = (const IC_INFO*)vector->cvpIcInformation;
+	sram[VOFS_COMMAND] = VCMD_ERASE;
+	sram[VOFS_OP_CODE_METHOD] = info->uiEraseParameter;
+	sram[VOFS_START_ADDRESS] = 0x8000000+vector->uiStartPage*info->uiPageSizeInByte+vector->usOffsetInPage;
+	sram[VOFS_SECTOR_NUMBER] = vector->uiImageLength/info->uiSectorSizeInByte;
+	sram[VOFS_SECTOR_SIZE] = info->uiSectorSizeInByte;
+	sram[VOFS_ID] = *(unsigned int*)info->aucId;
+#else
+	write_sram(0x10,(const unsigned int*)cstrIap,IAP_BUF_SIZE/sizeof(unsigned int));
+	sram[VOFS_COMMAND] = VCMD_ERASE;
+	sram[VOFS_START_ADDRESS] = IAP_START_ADDRESS;
+	sram[VOFS_LENGTH] = IAP_BUF_SIZE;
+	traceOp(sram);
+#endif
+}
+
+static void PROCESS_DECLARE(command_read)
+{
+	const IC_INFO* info = (const IC_INFO*)vector->cvpIcInformation;
+	write_register(0x3030,(vector->ucFlag & VEC_F_FIFO)?1:0);
+	//sram[VOFS_OP_AREA] = vector->usOperateArea;
+	sram[VOFS_COMMAND] = vector->usOperation;
+	sram[VOFS_OP_CODE_METHOD] = info->uiReadParameter;
+	if(vector->usOperateArea == 0)
+		sram[VOFS_START_ADDRESS] = 0x08000000+vector->uiStartPage*info->uiPageSizeInByte+vector->usOffsetInPage;
+	else
+		sram[VOFS_START_ADDRESS] = 0x1FFFF800+vector->uiStartPage*info->uiPageSizeInByte+vector->usOffsetInPage;
+	sram[VOFS_LENGTH] = vector->uiImageLength;
+	sram[VOFS_ID] = *(unsigned int*)info->aucId;
+	traceOp(sram);
+}
+
+static void PROCESS_DECLARE(command_verify)
+{
+	const IC_INFO* info = (const IC_INFO*)vector->cvpIcInformation;
+	write_register(0x3030,(vector->ucFlag & VEC_F_FIFO)?1:0);
+	sram[VOFS_OP_AREA] = vector->usOperateArea;
+	sram[VOFS_COMMAND] = vector->usOperation;
+	sram[VOFS_OP_CODE_METHOD] = info->uiReadParameter;
+	if(vector->usOperateArea == 0){
+		sram[VOFS_LENGTH] = vector->uiImageLength;
+		sram[VOFS_START_ADDRESS] = 0x08000000+vector->uiStartPage*info->uiPageSizeInByte+vector->usOffsetInPage;
+	}
+	else{
+		sram[VOFS_LENGTH] = vector->uiParameter;
+		write_sram(0x10,vector->vpParameter,vector->uiParameter>>2);
+	}
+	sram[VOFS_ID] = *(unsigned int*)info->aucId;
+}
+
+static void PROCESS_DECLARE(command_program)
+{
+	const IC_INFO* info = (const IC_INFO*)vector->cvpIcInformation;
+	//write_register(0x3030,(vector->uiSdRamLength)?0:1);
+	write_register(0x3030,(vector->ucFlag & VEC_F_FIFO)?1:0);
+	sram[VOFS_OP_AREA] = vector->usOperateArea;
+	sram[VOFS_COMMAND] = VCMD_PROGRAM;
+	sram[VOFS_OP_CODE_METHOD] = info->uiProgramParameter;
+	sram[VOFS_START_ADDRESS] = 0x8000000+vector->uiStartPage*info->uiPageSizeInByte+vector->usOffsetInPage;
+	if(vector->usOperateArea == 0){
+		sram[VOFS_LENGTH] = vector->uiImageLength;
+	}
+	else{
+		sram[VOFS_LENGTH] = vector->uiParameter;
+		write_sram(0x10,vector->vpParameter,vector->uiParameter>>2);
+	}
+	sram[VOFS_PAGE_SIZE] = info->uiPageSizeInByte;
+	sram[VOFS_OP_CODE_METHOD] = info->uiProgramParameter;
+	sram[VOFS_ID] = *(unsigned int*)info->aucId;
+	traceOp(sram);
+}
+
+static void PROCESS_DECLARE(command_nre)
+{
+	const IC_INFO* info = (const IC_INFO*)vector->cvpIcInformation;
+	write_sram(16,vector->vpParameter,vector->uiParameter/sizeof(unsigned int));
+	sram[VOFS_COMMAND] = vector->usOperation;
+	sram[VOFS_OP_CODE_METHOD] = info->uiProgramParameter;
+	sram[VOFS_START_ADDRESS] = 0x8000000+vector->uiStartPage*info->uiPageSizeInByte+vector->usOffsetInPage;
+	sram[VOFS_LENGTH] = vector->uiImageLength;
+	sram[VOFS_PAGE_SIZE] = info->uiPageSizeInByte;
+	sram[VOFS_ID] = *(unsigned int*)info->aucId;
+}
+
+static BOOL CHK_RDY_DECLARE(chkrdy_readid)
+{
+	const IC_INFO* info = (const IC_INFO*)vector->cvpIcInformation;
+	read_sram(16,sram,(min(vector->uiParameter,info->uiIdLength)+3)/sizeof(unsigned int));
+	memcpy(vector->vpParameter,sram,vector->uiParameter);
+	if(memcmp(vector->vpParameter,info->aucId,info->uiIdLength)){
+		return FALSE;
+	}
+	return TRUE;
+}
+
+static BOOL CHK_RDY_DECLARE(chkrdy_verify)
+{
+	if(vector->usOperateArea == 0)
+		vector->uiImageChecksum = sram[VOFS_CHECKSUM];
+	return TRUE;
+}
+
+const VECTOR_FUNC vector_func[16] = {
+	{command_vec_reset, NULL},		//VCMD_RESET_VECTOR		0{this will be called before power off, pass or error occured}
+	{command_bus_reset,NULL},		//VCMD_RESET_BUS		1
+	{command_initchip, NULL},		//VCMD_INIT_CHIP		2
+	{command_readid, chkrdy_readid},//VCMD_READ_ID			3
+	{command_unlock,NULL},			//VCMD_UNLOCK			4
+	{command_erase,NULL},			//VCMD_ERASE			5
+	{command_read,NULL},			//VCMD_BLANK_CHECK		6
+	{command_program,NULL},			//VCMD_PROGRAM			7
+	{command_verify,chkrdy_verify},	//VCMD_VERIFY			8
+	{command_read,NULL},			//VCMD_READ				9
+	{command_lock,NULL},			//VCMD_LOCK				10
+	{command_nre,NULL},				//VCMD_NRE			11
+	{NULL,NULL},					//VCMD_NULL			12
+	{NULL,NULL},					//VCMD_NULL			13
+	{NULL,NULL},					//VCMD_NULL			14
+	{NULL,NULL},					//VCMD_NULL			15
+};

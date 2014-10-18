@@ -1,0 +1,27 @@
+﻿Build started 2014/10/17 星期五 下午 2:29:37.
+     1>Project "E:\James\Work\Program\DediSoftware_branch\DLG_SH79F1621F_JAM_100\DLG_SH79F1621F_JAM_100.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         D:\Program Files\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D _WINDOWS /D NDEBUG /D _AFXEXT /D _WINDLL /D _UNICODE /D UNICODE /D _AFXDLL /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Release\DLG_SH79F1621F_JAM_100.pch" /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+         D:\Program Files\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D _WINDOWS /D NDEBUG /D _AFXEXT /D _WINDLL /D _UNICODE /D UNICODE /D _AFXDLL /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Release\DLG_SH79F1621F_JAM_100.pch" /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt DLGSH79F1621F.cpp DLG_SH79F1621F_JAM_100.cpp
+         DLGSH79F1621F.cpp
+         DLG_SH79F1621F_JAM_100.cpp
+         D:\Program Files\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D _WINDOWS /D NDEBUG /D _AFXEXT /D _WINDLL /D _UNICODE /D UNICODE /D _AFXDLL /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt dllmain.cpp
+         dllmain.cpp
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /D NDEBUG /D _UNICODE /D UNICODE /D _AFXDLL /l"0x0409" /IRelease\ /nologo /fo"Release\DLG_SH79F1621F_JAM_100.res" DLG_SH79F1621F_JAM_100.rc 
+       Link:
+         D:\Program Files\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\James\Work\Program\DediSoftware_branch\Release\Server\ICSupport\Binary\DLG_SH79F1621F_JAM_100.dll" /INCREMENTAL:NO /NOLOGO E:\James\Work\Program\DediSoftware_branch\Release\Server\ICSupport\Binary\/ICSettingPage.lib /DEF:".\DLG_SH79F1621F_JAM_100.def" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"D:\Program Files\Microsoft Visual Studio 12.0\VC\Include\Manifest\dpiaware.manifest" /DEBUG /PDB:"E:\James\Work\Program\DediSoftware_branch\Release\Server\ICSupport\Binary\DLG_SH79F1621F_JAM_100.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\James\Work\Program\DediSoftware_branch\Release\Server\ICSupport\Binary\DLG_SH79F1621F_JAM_100.lib" /MACHINE:X86 /SAFESEH /DLL Release\DLG_SH79F1621F_JAM_100.res
+         Release\DLGSH79F1621F.obj
+         Release\DLG_SH79F1621F_JAM_100.obj
+         Release\dllmain.obj
+         Release\stdafx.obj
+            Creating library E:\James\Work\Program\DediSoftware_branch\Release\Server\ICSupport\Binary\DLG_SH79F1621F_JAM_100.lib and object E:\James\Work\Program\DediSoftware_branch\Release\Server\ICSupport\Binary\DLG_SH79F1621F_JAM_100.exp
+         Generating code
+         Finished generating code
+         DLG_SH79F1621F_JAM_100.vcxproj -> E:\James\Work\Program\DediSoftware_branch\Release\Server\ICSupport\Binary\DLG_SH79F1621F_JAM_100.dll
+     1>Done Building Project "E:\James\Work\Program\DediSoftware_branch\DLG_SH79F1621F_JAM_100\DLG_SH79F1621F_JAM_100.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:06.64

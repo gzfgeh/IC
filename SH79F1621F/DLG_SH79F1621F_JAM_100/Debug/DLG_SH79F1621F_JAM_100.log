@@ -1,0 +1,25 @@
+﻿Build started 2014/10/17 星期五 下午 1:21:04.
+     1>Project "E:\James\Work\Program\DediSoftware_branch\DLG_SH79F1621F_JAM_100\DLG_SH79F1621F_JAM_100.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         D:\Program Files\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _AFXEXT /D _AFXDLL /D _WINDLL /D _UNICODE /D UNICODE /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Debug\DLG_SH79F1621F_JAM_100.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+         D:\Program Files\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _AFXEXT /D _AFXDLL /D _WINDLL /D _UNICODE /D UNICODE /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\DLG_SH79F1621F_JAM_100.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt DLGSH79F1621F.cpp DLG_SH79F1621F_JAM_100.cpp
+         DLG_SH79F1621F_JAM_100.cpp
+         DLGSH79F1621F.cpp
+         Generating Code...
+         D:\Program Files\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _AFXEXT /D _AFXDLL /D _WINDLL /D _UNICODE /D UNICODE /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt dllmain.cpp
+         dllmain.cpp
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /D _DEBUG /D _UNICODE /D UNICODE /D _AFXDLL /l"0x0409" /IDebug\ /nologo /fo"Debug\DLG_SH79F1621F_JAM_100.res" DLG_SH79F1621F_JAM_100.rc 
+       Link:
+         D:\Program Files\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\James\Work\Program\DediSoftware_branch\Debug\\Server\ICSupport\Binary\DLG_SH79F1621F_JAM_100.dll" /INCREMENTAL /NOLOGO E:\James\Work\Program\DediSoftware_branch\Debug\\Server\ICSupport\Binary\/ICSettingPage.lib /DEF:".\DLG_SH79F1621F_JAM_100.def" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"D:\Program Files\Microsoft Visual Studio 12.0\VC\Include\Manifest\dpiaware.manifest" /DEBUG /PDB:"E:\James\Work\Program\DediSoftware_branch\Debug\\Server\ICSupport\Binary\DLG_SH79F1621F_JAM_100.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\James\Work\Program\DediSoftware_branch\Debug\\Server\ICSupport\Binary\DLG_SH79F1621F_JAM_100.lib" /MACHINE:X86 /DLL Debug\DLG_SH79F1621F_JAM_100.res
+         Debug\DLGSH79F1621F.obj
+         Debug\DLG_SH79F1621F_JAM_100.obj
+         Debug\dllmain.obj
+         Debug\stdafx.obj
+     1>LINK : fatal error LNK1104: cannot open file 'E:\James\Work\Program\DediSoftware_branch\Debug\\Server\ICSupport\Binary\/ICSettingPage.lib'
+     1>Done Building Project "E:\James\Work\Program\DediSoftware_branch\DLG_SH79F1621F_JAM_100\DLG_SH79F1621F_JAM_100.vcxproj" (Rebuild target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:11.47
