@@ -170,6 +170,27 @@ BOOL CDLGSH79F1621F::ShowData(const struct chip_info_c *chip, const unsigned cha
         break;
     }
 
+    ((CButton*)GetDlgItem(IDC_CHECK1))->SetCheck(ucSecurityFlag[4] & 3);
+    ((CButton*)GetDlgItem(IDC_CHECK2))->SetCheck(ucSecurityFlag[4] & 0xC);
+    ((CButton*)GetDlgItem(IDC_CHECK3))->SetCheck(ucSecurityFlag[4] & 0x30);
+    ((CButton*)GetDlgItem(IDC_CHECK4))->SetCheck(ucSecurityFlag[4] & 0xC0);
+
+    ((CButton*)GetDlgItem(IDC_CHECK6))->SetCheck(ucSecurityFlag[5] & 3);
+    ((CButton*)GetDlgItem(IDC_CHECK7))->SetCheck(ucSecurityFlag[5] & 0xC);
+    ((CButton*)GetDlgItem(IDC_CHECK8))->SetCheck(ucSecurityFlag[5] & 0x30);
+    ((CButton*)GetDlgItem(IDC_CHECK9))->SetCheck(ucSecurityFlag[5] & 0xC0);
+
+    ((CButton*)GetDlgItem(IDC_CHECK10))->SetCheck(ucSecurityFlag[6] & 3);
+    ((CButton*)GetDlgItem(IDC_CHECK11))->SetCheck(ucSecurityFlag[6] & 0xC);
+    ((CButton*)GetDlgItem(IDC_CHECK12))->SetCheck(ucSecurityFlag[6] & 0x30);
+    ((CButton*)GetDlgItem(IDC_CHECK13))->SetCheck(ucSecurityFlag[6] & 0xC0);
+
+    ((CButton*)GetDlgItem(IDC_CHECK14))->SetCheck(ucSecurityFlag[7] & 3);
+    ((CButton*)GetDlgItem(IDC_CHECK15))->SetCheck(ucSecurityFlag[7] & 0xC);
+    ((CButton*)GetDlgItem(IDC_CHECK16))->SetCheck(ucSecurityFlag[7] & 0x30);
+    ((CButton*)GetDlgItem(IDC_CHECK17))->SetCheck(ucSecurityFlag[7] & 0xC0);
+
+#if 0
     if (ucSecurityFlag[4] == 0xFF)
         ((CButton*)GetDlgItem(IDC_CHECK1))->SetCheck(TRUE);
     else
@@ -189,6 +210,7 @@ BOOL CDLGSH79F1621F::ShowData(const struct chip_info_c *chip, const unsigned cha
         ((CButton*)GetDlgItem(IDC_CHECK4))->SetCheck(TRUE);
     else
         ((CButton*)GetDlgItem(IDC_CHECK4))->SetCheck(FALSE);
+#endif
 
     return TRUE;
 }
@@ -202,7 +224,7 @@ BOOL CDLGSH79F1621F::OutputData(const struct chip_info_c *chip, unsigned char *p
     UINT op3 = GetCheckedRadioButton(IDC_RADIO3_RST, IDC_RADIO3_IO);
     UINT op4 = GetCheckedRadioButton(IDC_RADIO4_LEST, IDC_RADIO4_SEST);
     UINT op5 = GetCheckedRadioButton(IDC_RADIO5_DIS, IDC_RADIO5_EN);
-    UINT op6 = GetCheckedRadioButton(IDC_RADIO6_43V, IDC_RADIO6_21V);
+    UINT op6 = GetCheckedRadioButton(IDC_RADIO6_21V, IDC_RADIO6_43V);
     UINT op7 = GetCheckedRadioButton(IDC_RADIO7_INV, IDC_RADIO7_VAL);
     UINT op8 = GetCheckedRadioButton(IDC_RADIO8_NOR, IDC_RADIO8_INV);
     UINT op9 = GetCheckedRadioButton(IDC_RADIO9_KEEP, IDC_RADIO9_CHA);
@@ -210,12 +232,27 @@ BOOL CDLGSH79F1621F::OutputData(const struct chip_info_c *chip, unsigned char *p
     UINT op11 = GetCheckedRadioButton(IDC_RADIO11_2, IDC_RADIO11_812);
     UINT op12 = GetCheckedRadioButton(IDC_RADIO12_KEEP, IDC_RADIO12_CHA);
     UINT op13 = GetCheckedRadioButton(IDC_RADIO13_CHA, IDC_RADIO13_KEEP);
+
     UINT op14 = ((CButton*)GetDlgItem(IDC_CHECK1))->GetCheck();
     UINT op15 = ((CButton*)GetDlgItem(IDC_CHECK2))->GetCheck();
     UINT op16 = ((CButton*)GetDlgItem(IDC_CHECK3))->GetCheck();
     UINT op17 = ((CButton*)GetDlgItem(IDC_CHECK4))->GetCheck();
+    UINT op18 = ((CButton*)GetDlgItem(IDC_CHECK6))->GetCheck();
+    UINT op19 = ((CButton*)GetDlgItem(IDC_CHECK7))->GetCheck();
+    UINT op20 = ((CButton*)GetDlgItem(IDC_CHECK8))->GetCheck();
+    UINT op21 = ((CButton*)GetDlgItem(IDC_CHECK9))->GetCheck();
+    UINT op22 = ((CButton*)GetDlgItem(IDC_CHECK10))->GetCheck();
+    UINT op23 = ((CButton*)GetDlgItem(IDC_CHECK11))->GetCheck();
+    UINT op24 = ((CButton*)GetDlgItem(IDC_CHECK12))->GetCheck();
+    UINT op25 = ((CButton*)GetDlgItem(IDC_CHECK13))->GetCheck();
+    UINT op26 = ((CButton*)GetDlgItem(IDC_CHECK14))->GetCheck();
+    UINT op27 = ((CButton*)GetDlgItem(IDC_CHECK15))->GetCheck();
+    UINT op28 = ((CButton*)GetDlgItem(IDC_CHECK16))->GetCheck();
+    UINT op29 = ((CButton*)GetDlgItem(IDC_CHECK17))->GetCheck();
+
 
     UINT option1 = 0, option2 = 0, option3 = 0, option4 = 0x80;
+    UINT option5 = 0, option6 = 0, option7 = 0, option8 = 0;
 
     if (op1 == IDC_RADIO1_EN)
         op1 = 1 << 7;
@@ -256,7 +293,7 @@ BOOL CDLGSH79F1621F::OutputData(const struct chip_info_c *chip, unsigned char *p
     else
         op5 = 0;
 
-    if (op6 == IDC_RADIO6_21V)
+    if (op6 == IDC_RADIO6_43V)
         op6 = 1 << 6;
     else
         op6 = 0;
@@ -338,39 +375,107 @@ BOOL CDLGSH79F1621F::OutputData(const struct chip_info_c *chip, unsigned char *p
     else
         op13 = 0;
 
+
+
     if (op14 == TRUE)
-        op14 = 0xFF;
+        op14 = 0x3;
     else
         op14 = 0;
 
     if (op15 == TRUE)
-        op15 = 0xFF;
+        op15 = 0xC;
     else
         op15 = 0;
 
     if (op16 == TRUE)
-        op16 = 0xFF;
+        op16 = 0x30;
     else
         op16 = 0;
 
     if (op17 == TRUE)
-        op17 = 0xFF;
+        op17 = 0xC0;
     else
         op17 = 0;
+
+    if (op18 == TRUE)
+        op18 = 0x3;
+    else
+        op18 = 0;
+
+    if (op19 == TRUE)
+        op19 = 0xC;
+    else
+        op19 = 0;
+
+    if (op20 == TRUE)
+        op20 = 0x30;
+    else
+        op20 = 0;
+
+    if (op21 == TRUE)
+        op21 = 0xC0;
+    else
+        op21 = 0;
+
+    
+    if (op22 == TRUE)
+        op22 = 0x3;
+    else
+        op22 = 0;
+
+    if (op23 == TRUE)
+        op23 = 0xC;
+    else
+        op23 = 0;
+
+    if (op24 == TRUE)
+        op24 = 0x30;
+    else
+        op24 = 0;
+
+    if (op25 == TRUE)
+        op25 = 0xC0;
+    else
+        op25 = 0;
+
+    if (op26 == TRUE)
+        op26 = 0x3;
+    else
+        op26 = 0;
+
+    if (op27 == TRUE)
+        op27 = 0xC;
+    else
+        op27 = 0;
+
+    if (op28 == TRUE)
+        op28 = 0x30;
+    else
+        op28 = 0;
+
+    if (op29 == TRUE)
+        op29 = 0xC0;
+    else
+        op29 = 0;
+
 
     option1 |= op1 | op2 | op3 | op4;
     option2 |= op5 | op6 | op7 | op8;
     option3 |= op9 | op10;
     option4 |= op11 | op12 | op13;
+    option5 |= op14 | op15 | op16 | op17;
+    option6 |= op18 | op19 | op20 | op21;
+    option7 |= op22 | op23 | op24 | op25;
+    option8 |= op26 | op27 | op28 | op29;
 
     ucSecurityFlag[0] = option1;
     ucSecurityFlag[1] = option2;
     ucSecurityFlag[2] = option3;
     ucSecurityFlag[3] = option4;
-    ucSecurityFlag[4] = op14;
-    ucSecurityFlag[5] = op15;
-    ucSecurityFlag[6] = op16;
-    ucSecurityFlag[7] = op17;
+    ucSecurityFlag[4] = option5;
+    ucSecurityFlag[5] = option6;
+    ucSecurityFlag[6] = option7;
+    ucSecurityFlag[7] = option8;
 
     memcpy(pRegBuff, ucSecurityFlag, 8);
     *m_pDataLen = 8;

@@ -1207,37 +1207,6 @@ WritePassWord:
     	JP A1,=ProgramMode
     	PUSH PC
     	JP A1,=SetClk
-    	PUSH PC
-    	JP A1,=StartAddress
-    	
-    	MOV R3,#0
-    	MOV R2,#0xAA
-    	PUSH PC
-    	JP A1,=CommandList
-        
-        MOV R0,#0xFF
-        PUSH PC
-        JP A1,=WriteData
-        
-        MOV R1,#0x8001
-        MOV [R1],#0x14	;IO3 high IO5
-
-	PUSH PC
-	JP A1,=DLY30MS
-	DLYUS #500
-	
-	MOV R0,#0xFF
-        PUSH PC
-        JP A1,=WriteData
-        
-        MOV R0,#0xFF
-        PUSH PC
-        JP A1,=WriteData
-        
-        MOV R1,#0x8001
-        MOV [R1],#0x3C	;IO3 high IO5
-        DLYUS #50
-        
         PUSH PC
 	JP A1,=SetPassWordAddr
     	
@@ -1275,13 +1244,6 @@ WritePassWord:
         MOV R0,#0x00
         PUSH PC
         JP A1,=WriteData
-        
-        ;MOV R0,#0xFF		;five
-        ;PUSH PC
-        ;JP A1,=WriteData
-        ;MOV R0,#0x00
-        ;PUSH PC
-        ;JP A1,=WriteData
         
         MOV R0,#0x0
         PUSH PC
